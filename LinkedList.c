@@ -7,7 +7,7 @@ struct ListItem{
 };
 
 void printList(struct ListItem *item){
-  while (item->next != 0){
+  while(item->next != 0){
     printf("Value = %d\n", item->value);
     printf("Next = %d (%p)\n", item->next->value, item->next);
     item = item->next;
@@ -18,6 +18,15 @@ void printList(struct ListItem *item){
 
 void initializeList(struct ListItem **item){
   *item = malloc(sizeof(int));
+}
+
+void insertItemEnd(struct ListItem *item, int value){
+  while(item->next != 0){
+    item = item->next;
+  };
+  struct ListItem *NewItem = malloc(sizeof(int));
+  NewItem->value = value;
+  item->next = NewItem;
 }
 
 int main(){
@@ -34,5 +43,7 @@ int main(){
   item1->next = item2;
   item2->next = NULL;
 
+  printList(item1);
+  insertItemEnd(item1, 3);
   printList(item1);
 };
