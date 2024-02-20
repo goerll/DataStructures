@@ -29,6 +29,13 @@ void insertItemEnd(struct ListItem *item, int value){
   item->next = NewItem;
 }
 
+void insertItemStart(struct ListItem **item, int value){
+  struct ListItem *NewItem = malloc(sizeof(int));
+  NewItem->value = value;
+  NewItem->next = *item;
+  *item = NewItem;
+}
+
 int lenOfList(struct ListItem *item){
   int i = 1;
   while(item->next != 0){
@@ -74,4 +81,7 @@ int main(){
   printf("Len: %d\n", lenOfList(List1));
   printf("Min: %d\n", listMin(List1));
   printf("Max: %d\n", listMax(List1));
+
+  insertItemStart(&List1, 0);
+  printList(List1);
 };
