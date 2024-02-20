@@ -23,11 +23,21 @@ void initializeList(struct ListItem **item){
 void insertItemEnd(struct ListItem *item, int value){
   while(item->next != 0){
     item = item->next;
-  };
+  }
   struct ListItem *NewItem = malloc(sizeof(int));
   NewItem->value = value;
   item->next = NewItem;
 }
+
+int lenOfList(struct ListItem *item){
+  int i = 1;
+  while(item->next != 0){
+    i++;
+    item = item->next;
+  }
+  return i;
+}
+
 
 int main(){
   printf("Tá rodando\n");
@@ -44,6 +54,11 @@ int main(){
   item2->next = NULL;
 
   printList(item1);
-  insertItemEnd(item1, 3);
+  insertItemEnd(item1, 4);
   printList(item1);
+  insertItemEnd(item1, 4);
+  insertItemEnd(item1, 4);
+  insertItemEnd(item1, 4);
+  printList(item1);
+  printf("%d", lenOfList(item1));
 };
