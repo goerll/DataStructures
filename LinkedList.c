@@ -7,13 +7,13 @@ struct ListItem{
 };
 
 void printList(struct ListItem *item){
+  printf("[%d, ", item->value);
+  item = item->next;
   while(item->next != 0){
-    printf("Value = %d\n", item->value);
-    printf("Next = %d (%p)\n", item->next->value, item->next);
+    printf("%d, ", item->value);
     item = item->next;
   }
-  printf("Value = %d\n", item->value);
-  printf("Next = reached list end\n");
+  printf("%d]\n", item->value);
 }
 
 void initializeList(struct ListItem **item){
@@ -38,27 +38,40 @@ int lenOfList(struct ListItem *item){
   return i;
 }
 
+int listMax(struct ListItem *item){
+  int max = item->value;
+  while(item->next != 0){
+    if(item->value > max)
+      max = item->value;
+    item = item->next;
+  }
+  return max;
+}
+
+int listMin(struct ListItem *item){
+  int min = item->value;
+  while(item->next != 0){
+    if(item->value < min)
+      min = item->value;
+    item = item->next;
+  }
+  return min;
+}
 
 int main(){
   printf("Tá rodando\n");
 
-  struct ListItem *item1;
-  struct ListItem *item2;
+  struct ListItem *List1;
+  initializeList(&List1);
+  List1->value = 1;
 
-  initializeList(&item1);
+  insertItemEnd(List1, 2);
+  insertItemEnd(List1, 3);
+  insertItemEnd(List1, 4);
+  insertItemEnd(List1, 5);
 
-  item1->value = 1;
-  item2->value = 2;
-
-  item1->next = item2;
-  item2->next = NULL;
-
-  printList(item1);
-  insertItemEnd(item1, 4);
-  printList(item1);
-  insertItemEnd(item1, 4);
-  insertItemEnd(item1, 4);
-  insertItemEnd(item1, 4);
-  printList(item1);
-  printf("%d", lenOfList(item1));
+  printList(List1);
+  printf("Len: %d\n", lenOfList(List1));
+  printf("Min: %d\n", listMin(List1));
+  printf("Max: %d\n", listMax(List1));
 };
