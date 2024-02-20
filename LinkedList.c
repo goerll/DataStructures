@@ -35,8 +35,8 @@ void insertItemEnd(struct ListItem *item, int value){
   item->next = NewItem;
 }
 
-// Insert item at the start and redefine the list head to the new item
-// Receives the list's first item's memory address as first argument (I.e.: &ListItem)
+// Inserts item at the start and redefines the list head to point to the new item adress
+// Receives the list's first item's memory adress as first argument (I.e.: &ListItem)
 void insertItemStart(struct ListItem **item, int value){
   struct ListItem *NewItem = malloc(sizeof(int));
   NewItem->value = value;
@@ -76,6 +76,31 @@ int listMin(struct ListItem *item){
   return min;
 }
 
+// Receives a number and returns the value at that index on the list
+// Will return -1 if the index is out of range
+int searchByIndex(struct ListItem *item, int index){
+  for(int i = 0; i < index; i++){
+    item = item->next;
+    if(item->next == 0 && i != index){
+      return -1;
+    }
+  }
+  return item->value;
+}
+
+/*
+int *searchByValue(struct ListItem *item, int value){
+  int ocurrences = 0;
+  int indexes[0];
+
+  while(item->next != 0){
+    if(item->value == value){
+      
+      indexes = int indexes[ocurrences]
+    }
+  }
+}
+*/
 // Testing all this madness
 int main(){
   printf("Tá rodando\n");
@@ -96,4 +121,5 @@ int main(){
 
   insertItemStart(&List1, 0);
   printList(List1);
+  printf("%d\n", searchByIndex(List1, -2));
 };
