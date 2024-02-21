@@ -9,7 +9,7 @@ struct ListItem{
 };
 
 // Prints a ListItem and all the following items linked to it
-// I.e.: "[1, 2, 3, 4, 5,]"
+// I.e.: "[1, 2, 3, 4, 5]"
 void printList(struct ListItem *item){
   printf("[%d, ", item->value);
   item = item->next;
@@ -77,7 +77,8 @@ int listMin(struct ListItem *item){
 }
 
 // Receives a number and returns the value at that index on the list
-// Will return -1 if the index is out of range
+// Will return -1 if the index is higher than range, 0 if it's below
+// Note: maybe add backwards index search for negative index inputs later
 int searchByIndex(struct ListItem *item, int index){
   for(int i = 0; i < index; i++){
     item = item->next;
@@ -88,19 +89,20 @@ int searchByIndex(struct ListItem *item, int index){
   return item->value;
 }
 
-/*
-int *searchByValue(struct ListItem *item, int value){
-  int ocurrences = 0;
-  int indexes[0];
+// Returns the index of the first ocurrence of the value it receives
+int searchByValue(struct ListItem *item, int value){
+  int i = 0;
 
   while(item->next != 0){
     if(item->value == value){
-      
-      indexes = int indexes[ocurrences]
+      return i;
     }
+    item = item->next;
+    i++;
   }
+  return -1;
 }
-*/
+
 // Testing all this madness
 int main(){
   printf("Tá rodando\n");
@@ -109,9 +111,10 @@ int main(){
   initializeList(&List1);
   List1->value = 1;
 
-  insertItemEnd(List1, 2);
+  insertItemEnd(List1, 3);
   insertItemEnd(List1, 3);
   insertItemEnd(List1, 4);
+  insertItemEnd(List1, 5);
   insertItemEnd(List1, 5);
 
   printList(List1);
@@ -122,4 +125,5 @@ int main(){
   insertItemStart(&List1, 0);
   printList(List1);
   printf("%d\n", searchByIndex(List1, -2));
-};
+  printf("%d\n", searchByValue(List1, 3));
+}
