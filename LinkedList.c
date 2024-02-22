@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <wchar.h>
 
 struct ListItem{
   // The value that the item will hold
@@ -22,7 +23,9 @@ void printList(struct ListItem *item){
 
 // Allocates a memory adress to the first ListItem
 void initializeList(struct ListItem **item){
-  *item = malloc(sizeof(int));
+  *item = malloc(sizeof(struct ListItem));
+  (*item)->value = 0;
+  (*item)->next = NULL;
 }
 
 // Inserts item at the end of the list
@@ -30,15 +33,16 @@ void insertItemEnd(struct ListItem *item, int value){
   while(item->next != 0){
     item = item->next;
   }
-  struct ListItem *NewItem = malloc(sizeof(int));
+  struct ListItem *NewItem = malloc(sizeof(struct ListItem));
   NewItem->value = value;
+  NewItem->next = NULL;
   item->next = NewItem;
 }
 
 // Inserts item at the start and redefines the list head to point to the new item adress
 // Receives the list's first item's memory adress as first argument (I.e.: &ListItem)
 void insertItemStart(struct ListItem **item, int value){
-  struct ListItem *NewItem = malloc(sizeof(int));
+  struct ListItem *NewItem = malloc(sizeof(struct ListItem));
   NewItem->value = value;
   NewItem->next = *item;
   *item = NewItem;
@@ -58,10 +62,11 @@ int lenOfList(struct ListItem *item){
 int listMax(struct ListItem *item){
   int max = item->value;
   while(item->next != 0){
+    item = item->next;
     if(item->value > max)
       max = item->value;
-    item = item->next;
   }
+
   return max;
 }
 
@@ -69,10 +74,14 @@ int listMax(struct ListItem *item){
 int listMin(struct ListItem *item){
   int min = item->value;
   while(item->next != 0){
+    item = item->next;
     if(item->value < min)
       min = item->value;
-    item = item->next;
   }
+
+  if(item->value < min)
+    min = item->value;
+
   return min;
 }
 
@@ -103,6 +112,30 @@ int searchByValue(struct ListItem *item, int value){
   return -1;
 }
 
+// KILLS the list
+void destroyList(struct ListItem **list){
+  struct ListItem *next = (*list)->next;
+  while(next != 0){
+    free(*list);
+    *list = next;
+    next = next->next;
+  }
+}
+
+// Removes the last element of the list and returns it's value
+int listPop(struct ListItem *list){
+  int i;
+
+  while(list->next->next != 0){
+    list = list->next;
+  }
+  i = list->next->value;
+  free(list->next);
+  list->next = NULL;
+
+  return i;
+}
+
 // Testing all this madness
 int main(){
   printf("Tá rodando\n");
@@ -116,6 +149,7 @@ int main(){
   insertItemEnd(List1, 4);
   insertItemEnd(List1, 5);
   insertItemEnd(List1, 5);
+  insertItemEnd(List1, 10);
 
   printList(List1);
   printf("Len: %d\n", lenOfList(List1));
@@ -126,4 +160,7 @@ int main(){
   printList(List1);
   printf("%d\n", searchByIndex(List1, -2));
   printf("%d\n", searchByValue(List1, 3));
+  printf("d\n");
+  printf("%d\n", listPop(List1));
+  printList(List1);
 }
