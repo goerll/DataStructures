@@ -12,38 +12,38 @@ struct list{
   struct item* tail;
 };
 
-void initializeList(struct list *list, int value){
-  struct item* newItem = malloc(sizeof(struct item));
-  list->head = newItem;
-  list->tail = newItem;
-  newItem->previous = NULL;
-  newItem->next = NULL;
-  newItem->value = value;
+void initialize_list(struct list *list, int value){
+  struct item* new_item = malloc(sizeof(struct item));
+  list->head = new_item;
+  list->tail = new_item;
+  new_item->previous = NULL;
+  new_item->next = NULL;
+  new_item->value = value;
 }
 
-void insertItemEnd(struct list *list, int value){
-  struct item *newItem = malloc(sizeof(struct item));
+void append(struct list *list, int value){
+  struct item *new_item = malloc(sizeof(struct item));
 
-  newItem->value = value;
-  newItem->previous = list->tail;
-  newItem->next = NULL;
+  new_item->value = value;
+  new_item->previous = list->tail;
+  new_item->next = NULL;
 
-  list->tail->next = newItem;
-  list->tail = newItem;
+  list->tail->next = new_item;
+  list->tail = new_item;
 }
 
-void insertItemStart(struct list *list, int value){
-  struct item *newItem = malloc(sizeof(struct item));
+void prepend(struct list *list, int value){
+  struct item *new_item = malloc(sizeof(struct item));
 
-  newItem->value = value;
-  newItem->previous = NULL;
-  newItem->next = list->head;
+  new_item->value = value;
+  new_item->previous = NULL;
+  new_item->next = list->head;
 
-  list->head->previous = newItem;
-  list->head = newItem;
+  list->head->previous = new_item;
+  list->head = new_item;
 }
 
-void printList(struct list *list){
+void print_list(struct list *list){
   struct item *item = list->head;
   printf("[%d", item->value);
   while(item->next != 0){
@@ -57,10 +57,10 @@ void printList(struct list *list){
 
 int main(){
   struct list *lista;
-  initializeList(lista, 5);
+  initialize_list(lista, 5);
 
-  insertItemEnd(lista, 10);
-  insertItemStart(lista, 10);
+  append(lista, 10);
+  prepend(lista, 10);
 
-  printList(lista);
+  print_list(lista);
 }
