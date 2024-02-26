@@ -12,13 +12,12 @@ struct ListItem{
 // Prints a ListItem and all the following items linked to it
 // I.e.: "[1, 2, 3, 4, 5]"
 void printList(struct ListItem *item){
-  printf("[%d, ", item->value);
-  item = item->next;
+  printf("[%d", item->value);
   while(item->next != 0){
-    printf("%d, ", item->value);
     item = item->next;
+    printf(", %d", item->value);
   }
-  printf("%d]\n", item->value);
+  printf("]\n");
 }
 
 // Allocates a memory adress to the first ListItem
