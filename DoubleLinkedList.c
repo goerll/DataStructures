@@ -32,6 +32,17 @@ void insertItemEnd(struct list *list, int value){
   list->tail = newItem;
 }
 
+void insertItemStart(struct list *list, int value){
+  struct item *newItem = malloc(sizeof(struct item));
+
+  newItem->value = value;
+  newItem->previous = NULL;
+  newItem->next = list->head;
+
+  list->head->previous = newItem;
+  list->head = newItem;
+}
+
 void printList(struct list *list){
   struct item *item = list->head;
   printf("[%d", item->value);
@@ -40,13 +51,16 @@ void printList(struct list *list){
     printf(", %d", item->value);
   }
   printf("]\n");
+  printf("Head: %d\n", list->head->value);
+  printf("Tail: %d\n", list->tail->value);
 }
 
 int main(){
   struct list *lista;
-  printf("O problema é o initialize\n");
   initializeList(lista, 5);
+
   insertItemEnd(lista, 10);
-  printf("O problema é o print\n");
+  insertItemStart(lista, 10);
+
   printList(lista);
 }
