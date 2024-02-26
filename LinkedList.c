@@ -74,21 +74,19 @@ int listMax(struct ListItem *item){
 int listMin(struct ListItem *item){
   int min = item->value;
   while(item->next != 0){
-    item = item->next;
     if(item->value < min)
       min = item->value;
+    item = item->next;
   }
-
-  if(item->value < min)
-    min = item->value;
-
   return min;
 }
 
 // Receives a number and returns the value at that index on the list
-// Will return -1 if the index is higher than range, 0 if it's below
-// Note: maybe add backwards index search for negative index inputs later
+// Will return -1 if the index is higher than range, indexes lower than 0 work backwards
 int searchByIndex(struct ListItem *item, int index){
+  if(index < 0){
+    index = lenOfList(item) + index;
+  }
   for(int i = 0; i < index; i++){
     item = item->next;
     if(item->next == 0 && i != index){
@@ -146,7 +144,7 @@ int main(){
 
   insertItemEnd(List1, 3);
   insertItemEnd(List1, 3);
-  insertItemEnd(List1, 4);
+  insertItemStart(&List1, 4);
   insertItemEnd(List1, 5);
   insertItemEnd(List1, 5);
   insertItemEnd(List1, 10);
