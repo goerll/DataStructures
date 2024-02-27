@@ -6,12 +6,12 @@ struct item{
   // The value that the item will hold
   int value;
   // A pointer to the next item
-  struct item *next;
+  struct item* next;
 };
 
 // Prints a item and all the following items linked to it
 // I.e.: "[1, 2, 3, 4, 5]"
-void print_list(struct item *item){
+void print_list(struct item* item){
   printf("[%d", item->value);
   while(item->next != 0){
     item = item->next;
@@ -21,34 +21,34 @@ void print_list(struct item *item){
 }
 
 // Allocates a memory adress to the first item
-void initialize_list(struct item **item){
+void initialize_list(struct item** item){
   *item = malloc(sizeof(struct item));
   (*item)->value = 0;
   (*item)->next = NULL;
 }
 
 // Inserts item at the end of the list
-void append(struct item *item, int value){
+void append(struct item* item, int value){
   while(item->next != 0){
     item = item->next;
   }
-  struct item *NewItem = malloc(sizeof(struct item));
-  NewItem->value = value;
-  NewItem->next = NULL;
-  item->next = NewItem;
+  struct item* new_item = malloc(sizeof(struct item));
+  new_item->value = value;
+  new_item->next = NULL;
+  item->next = new_item;
 }
 
 // Inserts item at the start and redefines the list head to point to the new item adress
 // Receives the list's first item's memory adress as first argument (I.e.: &item)
-void prepend(struct item **item, int value){
-  struct item *NewItem = malloc(sizeof(struct item));
-  NewItem->value = value;
-  NewItem->next = *item;
-  *item = NewItem;
+void prepend(struct item** item, int value){
+  struct item* new_item = malloc(sizeof(struct item));
+  new_item->value = value;
+  new_item->next = *item;
+  *item = new_item;
 }
 
 // Returns the length of the list
-int len(struct item *item){
+int len(struct item* item){
   int i = 1;
   while(item->next != 0){
     i++;
@@ -58,7 +58,7 @@ int len(struct item *item){
 }
 
 // Returns the highest number on the list
-int max(struct item *item){
+int max(struct item* item){
   int max = item->value;
   while(item->next != 0){
     item = item->next;
@@ -70,7 +70,7 @@ int max(struct item *item){
 }
 
 // Returns the lowest number on the list
-int min(struct item *item){
+int min(struct item* item){
   int min = item->value;
   while(item->next != 0){
     if(item->value < min)
@@ -82,7 +82,7 @@ int min(struct item *item){
 
 // Receives a number and returns the value at that index on the list
 // Will return -1 if the index is higher than range, indexes lower than 0 work backwards
-int search_index(struct item *item, int index){
+int search_index(struct item* item, int index){
   if(index < 0){
     index = len(item) + index;
   }
@@ -96,7 +96,7 @@ int search_index(struct item *item, int index){
 }
 
 // Returns the index of the first ocurrence of the value it receives
-int search_value(struct item *item, int value){
+int search_value(struct item* item, int value){
   int i = 0;
 
   while(item->next != 0){
@@ -110,8 +110,8 @@ int search_value(struct item *item, int value){
 }
 
 // KILLS the list
-void destroy_list(struct item **list){
-  struct item *next = (*list)->next;
+void destroy_list(struct item** list){
+  struct item* next = (*list)->next;
   while(next != 0){
     free(*list);
     *list = next;
@@ -120,7 +120,7 @@ void destroy_list(struct item **list){
 }
 
 // Removes the last element of the list and returns it's value
-int pop(struct item *list){
+int pop(struct item* list){
   int i;
 
   while(list->next->next != 0){
@@ -137,7 +137,7 @@ int pop(struct item *list){
 int main(){
   printf("Tá rodando\n");
 
-  struct item *List1;
+  struct item* List1;
   initialize_list(&List1);
   List1->value = 1;
 

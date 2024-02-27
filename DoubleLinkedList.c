@@ -12,39 +12,19 @@ struct list{
   struct item* tail;
 };
 
-void initialize_list(struct list *list, int value){
+void initialize_list(struct list* list, int value){
   struct item* new_item = malloc(sizeof(struct item));
+
   list->head = new_item;
   list->tail = new_item;
+
   new_item->previous = NULL;
   new_item->next = NULL;
   new_item->value = value;
 }
 
-void append(struct list *list, int value){
-  struct item *new_item = malloc(sizeof(struct item));
-
-  new_item->value = value;
-  new_item->previous = list->tail;
-  new_item->next = NULL;
-
-  list->tail->next = new_item;
-  list->tail = new_item;
-}
-
-void prepend(struct list *list, int value){
-  struct item *new_item = malloc(sizeof(struct item));
-
-  new_item->value = value;
-  new_item->previous = NULL;
-  new_item->next = list->head;
-
-  list->head->previous = new_item;
-  list->head = new_item;
-}
-
-void print_list(struct list *list){
-  struct item *item = list->head;
+void print_list(struct list* list){
+  struct item* item = list->head;
   printf("[%d", item->value);
   while(item->next != 0){
     item = item->next;
@@ -55,12 +35,73 @@ void print_list(struct list *list){
   printf("Tail: %d\n", list->tail->value);
 }
 
+void append(struct list* list, int value){
+  struct item* new_item = malloc(sizeof(struct item));
+
+  new_item->value = value;
+  new_item->previous = list->tail;
+  new_item->next = NULL;
+
+  list->tail->next = new_item;
+  list->tail = new_item;
+}
+
+void prepend(struct list* list, int value){
+  struct item* new_item = malloc(sizeof(struct item));
+
+  new_item->value = value;
+  new_item->previous = NULL;
+  new_item->next = list->head;
+
+  list->head->previous = new_item;
+  list->head = new_item;
+}
+
+int len(struct list* list){
+  int i = 1;
+  struct item* item = list->head;
+
+  while(item->next != 0){
+    i++;
+    item = item->next;
+  }
+
+  return i;
+}
+
+int min(struct list* list){
+  struct item* item = list->head;
+  int min = item->value;
+
+  while(item->next != 0){
+    if(item->value < min){
+      min = item->value;
+    }
+  }
+
+  return min;
+}
+
+int max(struct list* list){
+  struct item* item = list->head;
+  int max = item->value;
+
+  while(item->next != 0){
+    if(item->value > max){
+      max = item->value;
+    }
+  }
+
+  return max;
+}
+
 int main(){
-  struct list *lista;
+  struct list* lista;
   initialize_list(lista, 5);
 
   append(lista, 10);
   prepend(lista, 10);
 
   print_list(lista);
+  printf("%d\n",len(lista));
 }
