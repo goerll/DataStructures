@@ -95,6 +95,35 @@ int max(struct list* list){
   return max;
 }
 
+int search_index(struct list* list, int index){
+  if(index < 0){
+    int i = -1;
+    struct item* item = list->tail;
+
+    while(i != index){
+      i--;
+      item = item->previous;
+    }
+
+    return item->value;
+  }
+  else{
+    int i = 0;
+    struct item* item = list->head;
+
+    while(i != index){
+      item = item->next;
+      i++;
+    }
+
+    return item->value;
+  }
+}
+
+int search_value(struct list* list, int value){
+
+}
+
 int main(){
   struct list* lista;
   initialize_list(lista, 5);
@@ -104,4 +133,6 @@ int main(){
 
   print_list(lista);
   printf("%d\n",len(lista));
+
+  printf("%d\n", search_index(lista, -2));
 }
