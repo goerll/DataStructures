@@ -121,7 +121,18 @@ int search_index(struct list* list, int index){
 }
 
 int search_value(struct list* list, int value){
+  struct item* item = list->head;
+  int i = 0;
 
+  while(item->next != 0){
+    if(item->value == value){
+      return i;
+    }
+    i++;
+    item = item->next;
+  }
+
+  return -1;
 }
 
 int main(){
@@ -135,4 +146,6 @@ int main(){
   printf("%d\n",len(lista));
 
   printf("%d\n", search_index(lista, -2));
+ 
+  printf("%d\n", search_value(lista, 10));
 }
