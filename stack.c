@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct stack{
   struct item* top;
@@ -46,12 +47,26 @@ int pop(stack* stack){
   return popped_value;
 }
 
+item* peek(stack* stack){
+  return stack->top;
+}
+
+bool is_empty(stack* stack){
+  if(stack->top == NULL){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
 int main(){
   stack* stack1 = init_stack();
   push(stack1, 10);
   push(stack1, 10);
   push(stack1, 10);
-  push(stack1, 10);
-  pop(stack1);
+  push(stack1, 11);
+  print_stack(stack1);
+  printf("%d\n", pop(stack1));
   print_stack(stack1);
 }
