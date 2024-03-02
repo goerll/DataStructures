@@ -19,7 +19,7 @@ stack* init_stack(){
 }
 
 void print_stack(stack* stack){
-  struct item* item = stack->top;
+  item* item = stack->top;
   printf("[%d", item->value);
   while(item->below != 0){
     item = item->below;
@@ -58,6 +58,19 @@ bool is_empty(stack* stack){
   else{
     return false;
   }
+}
+
+void free_stack(stack* stack){
+  item* current = stack->top;
+  item* next;
+
+  while(current != 0){
+    next = current->below;
+    free(current);
+    current = next;
+  }
+
+  free(stack);
 }
 
 int main(){
