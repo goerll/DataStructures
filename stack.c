@@ -17,6 +17,16 @@ stack* init_stack(){
   return new_stack;
 }
 
+void print_stack(stack* stack){
+  struct item* item = stack->top;
+  printf("[%d", item->value);
+  while(item->below != 0){
+    item = item->below;
+    printf(", %d", item->value);
+  }
+  printf("]\n");
+}
+
 void push(stack* stack, int value){
   item* new_item = malloc(sizeof(item));
 
@@ -38,5 +48,10 @@ int pop(stack* stack){
 
 int main(){
   stack* stack1 = init_stack();
-
+  push(stack1, 10);
+  push(stack1, 10);
+  push(stack1, 10);
+  push(stack1, 10);
+  pop(stack1);
+  print_stack(stack1);
 }
