@@ -57,6 +57,7 @@ void prepend(struct list* list, int value){
   list->head = new_item;
 }
 
+
 int len(struct list* list){
   int i = 1;
   struct item* item = list->head;
@@ -95,7 +96,7 @@ int max(struct list* list){
   return max;
 }
 
-int search_index(struct list* list, int index){
+struct item* search_index(struct list* list, int index){
   if(index < 0){
     int i = -1;
     struct item* item = list->tail;
@@ -105,7 +106,7 @@ int search_index(struct list* list, int index){
       item = item->previous;
     }
 
-    return item->value;
+    return item;
   }
   else{
     int i = 0;
@@ -116,7 +117,7 @@ int search_index(struct list* list, int index){
       i++;
     }
 
-    return item->value;
+    return item;
   }
 }
 
@@ -135,6 +136,16 @@ int search_value(struct list* list, int value){
   return -1;
 }
 
+void insert(struct list* list, int index, int value){
+  struct item* new_item = malloc(sizeof(struct item));
+  struct item* previous_index_item = search_index(list, index);
+
+  new_item->previous = previous_index_item;
+  new_item->next = previous_index_item->next;
+
+  previous_index_item->next = new_item;
+}
+
 int main(){
   struct list* lista;
   initialize_list(lista, 5);
@@ -145,7 +156,11 @@ int main(){
   print_list(lista);
   printf("%d\n",len(lista));
 
-  printf("%d\n", search_index(lista, -2));
+  printf("%d\n", search_index(lista, -2)->value);
  
   printf("%d\n", search_value(lista, 10));
+
+  insert(lista, 2, 13);
+
+  print_list(lista);
 }
