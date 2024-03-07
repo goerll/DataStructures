@@ -1,166 +1,78 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct item{
-  struct item* previous;
-  struct item* next;
+typedef struct linked_list{
+  struct linked_item* head;
+  struct linked_item* tail;
+} linked_list;
+
+typedef struct linked_item{
+  struct linked_item* next;
+  struct linked_item* previous;
   int value;
-};
+} linked_item;
 
-struct list{
-  struct item* head;
-  struct item* tail;
-};
+linked_list* init_list(){
+  linked_list* new_list = malloc(sizeof(linked_list));
+  new_list->head = NULL;
+  new_list->tail = NULL;
 
-void initialize_list(struct list* list, int value){
-  struct item* new_item = malloc(sizeof(struct item));
-
-  list->head = new_item;
-  list->tail = new_item;
-
-  new_item->previous = NULL;
-  new_item->next = NULL;
-  new_item->value = value;
+  return new_list;
 }
 
-void print_list(struct list* list){
-  struct item* item = list->head;
-  printf("[%d", item->value);
-  while(item->next != 0){
-    item = item->next;
-    printf(", %d", item->value);
+void destroy_list(linked_list* list){
+  linked_item* current = list->head;
+  linked_item* next;
+
+  while(next != 0){
+    free(current);
+    current = next;
+    next = next->next;
   }
-  printf("]\n");
-  printf("Head: %d\n", list->head->value);
-  printf("Tail: %d\n", list->tail->value);
+
+  free(current);
+  free(list);
 }
 
-void append(struct list* list, int value){
-  struct item* new_item = malloc(sizeof(struct item));
+void print_list(linked_list* list){
+  linked_item* current = list->head;
+
+  printf("[%d", current->value);
+
+  while(current->next != 0){
+    current = current->next;
+    printf(", %d", current->value);
+  }
+
+  printf("]\n");
+}
+
+void append(linked_list* list, int value){
+  linked_item* new_item = malloc(sizeof(linked_item));
 
   new_item->value = value;
   new_item->previous = list->tail;
   new_item->next = NULL;
 
-  list->tail->next = new_item;
   list->tail = new_item;
-}
 
-void prepend(struct list* list, int value){
-  struct item* new_item = malloc(sizeof(struct item));
-
-  new_item->value = value;
-  new_item->previous = NULL;
-  new_item->next = list->head;
-
-  list->head->previous = new_item;
-  list->head = new_item;
-}
-
-
-int len(struct list* list){
-  int i = 1;
-  struct item* item = list->head;
-
-  while(item->next != 0){
-    i++;
-    item = item->next;
-  }
-
-  return i;
-}
-
-int min(struct list* list){
-  struct item* item = list->head;
-  int min = item->value;
-
-  while(item->next != 0){
-    if(item->value < min){
-      min = item->value;
-    }
-  }
-
-  return min;
-}
-
-int max(struct list* list){
-  struct item* item = list->head;
-  int max = item->value;
-
-  while(item->next != 0){
-    if(item->value > max){
-      max = item->value;
-    }
-  }
-
-  return max;
-}
-
-struct item* search_index(struct list* list, int index){
-  if(index < 0){
-    int i = -1;
-    struct item* item = list->tail;
-
-    while(i != index){
-      i--;
-      item = item->previous;
-    }
-
-    return item;
+  if(list->head == NULL){
+    list->head = new_item;
   }
   else{
-    int i = 0;
-    struct item* item = list->head;
-
-    while(i != index){
-      item = item->next;
-      i++;
-    }
-
-    return item;
+    list->tail->next = new_item;
   }
-}
-
-int search_value(struct list* list, int value){
-  struct item* item = list->head;
-  int i = 0;
-
-  while(item->next != 0){
-    if(item->value == value){
-      return i;
-    }
-    i++;
-    item = item->next;
-  }
-
-  return -1;
-}
-
-void insert(struct list* list, int index, int value){
-  struct item* new_item = malloc(sizeof(struct item));
-  struct item* previous_index_item = search_index(list, index);
-
-  new_item->previous = previous_index_item;
-  new_item->next = previous_index_item->next;
-
-  previous_index_item->next = new_item;
 }
 
 int main(){
-  struct list* lista;
-  initialize_list(lista, 5);
+  linked_list* lista = init_list();
 
   append(lista, 10);
-  prepend(lista, 10);
+  append(lista, 10);
+  append(lista, 10);
+  append(lista, 10);
 
   print_list(lista);
-  printf("%d\n",len(lista));
 
-  printf("%d\n", search_index(lista, -2)->value);
- 
-  printf("%d\n", search_value(lista, 10));
-
-  insert(lista, 2, 13);
-
-  print_list(lista);
+  destroy_list(lista);
 }
