@@ -144,6 +144,19 @@ linked_item* search_index(linked_list* list, int index){
   }
 }
 
+int search_value(linked_list* list, int value){
+  linked_item* item = list->head;
+  int i = 0;
+
+  while(item->value != value){
+    i++;
+    item = item->next;
+  }
+
+  return i;
+}
+
+
 int main(){
   linked_list* lista = init_list();
 
@@ -153,7 +166,7 @@ int main(){
   append(lista, 10);
   prepend(lista, 5);
   print_list(lista);
-
+  printf("%d\n", search_value(lista, 10));
   printf("%d\n", search_index(lista, 0)->value);
   destroy_list(lista);
 }
