@@ -22,7 +22,7 @@ linked_list* init_list(){
 
 void destroy_list(linked_list* list){
   linked_item* current = list->head;
-  linked_item* next;
+  linked_item* next = NULL;
 
   while(next != 0){
     free(current);
@@ -119,6 +119,31 @@ int max(linked_list* list){
   return max;
 }
 
+linked_item* search_index(linked_list* list, int index){
+  if(index < 0){
+    int i = -1;
+    linked_item* item = list->tail;
+
+    while(i != index){
+      i--;
+      item = item->previous;
+    }
+
+    return item;
+  }
+  else{
+    int i = 0;
+    linked_item* item = list->head;
+
+    while(i != index){
+      item = item->next;
+      i++;
+    }
+
+    return item;
+  }
+}
+
 int main(){
   linked_list* lista = init_list();
 
@@ -129,6 +154,6 @@ int main(){
   prepend(lista, 5);
   print_list(lista);
 
+  printf("%d\n", search_index(lista, 0)->value);
   destroy_list(lista);
-
 }
