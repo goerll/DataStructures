@@ -54,14 +54,69 @@ void append(linked_list* list, int value){
   new_item->previous = list->tail;
   new_item->next = NULL;
 
-  list->tail = new_item;
-
   if(list->head == NULL){
     list->head = new_item;
   }
   else{
     list->tail->next = new_item;
   }
+
+  list->tail = new_item;
+}
+
+void prepend(linked_list* list, int value){
+  linked_item* new_item = malloc(sizeof(linked_item));
+
+  new_item->value = value;
+  new_item->previous = NULL;
+  new_item->next = list->head;
+
+  if(list->tail == NULL){
+    list->tail = new_item;
+  }
+  else{
+    list->head->previous = new_item;
+  }
+
+  list->head = new_item;
+}
+
+int len(linked_list* list){
+  int i = 1;
+  linked_item* item = list->head;
+
+  while(item->next != 0){
+    i++;
+    item = item->next;
+  }
+
+  return i;
+}
+
+int min(linked_list* list){
+  linked_item* item = list->head;
+  int min = item->value;
+
+  while(item->next != 0){
+    if(item->value < min){
+      min = item->value;
+    }
+  }
+
+  return min;
+}
+
+int max(linked_list* list){
+  linked_item* item = list->head;
+  int max = item->value;
+
+  while(item->next != 0){
+    if(item->value > max){
+      max = item->value;
+    }
+  }
+
+  return max;
 }
 
 int main(){
@@ -71,8 +126,9 @@ int main(){
   append(lista, 10);
   append(lista, 10);
   append(lista, 10);
-
+  prepend(lista, 5);
   print_list(lista);
 
   destroy_list(lista);
+
 }
