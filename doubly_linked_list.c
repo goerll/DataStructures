@@ -119,7 +119,7 @@ int max(linked_list* list){
   return max;
 }
 
-linked_item* search_index(linked_list* list, int index){
+linked_item* search_item(linked_list* list, int index){
   if(index < 0){
     int i = -1;
     linked_item* item = list->tail;
@@ -144,6 +144,31 @@ linked_item* search_index(linked_list* list, int index){
   }
 }
 
+int search_index(linked_list* list, int index){
+  if(index < 0){
+    int i = -1;
+    linked_item* item = list->tail;
+
+    while(i != index){
+      i--;
+      item = item->previous;
+    }
+
+    return item->value;
+  }
+  else{
+    int i = 0;
+    linked_item* item = list->head;
+
+    while(i != index){
+      item = item->next;
+      i++;
+    }
+
+    return item->value;
+  }
+}
+
 int search_value(linked_list* list, int value){
   linked_item* item = list->head;
   int i = 0;
@@ -158,7 +183,7 @@ int search_value(linked_list* list, int value){
 
 void insert(linked_list* list, int index, int value){
   linked_item* new_item = malloc(sizeof(linked_item));
-  linked_item* current_item = search_index(list, index-1);
+  linked_item* current_item = search_item(list, index-1);
 
   new_item->value = value;
   new_item->previous = current_item;
@@ -178,6 +203,6 @@ int main(){
   insert(lista, 3, 13);
   print_list(lista);
   printf("%d\n", search_value(lista, 10));
-  printf("%d\n", search_index(lista, 0)->value);
+  printf("%d\n", search_index(lista, 0));
   destroy_list(lista);
 }
