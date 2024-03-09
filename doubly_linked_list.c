@@ -156,6 +156,16 @@ int search_value(linked_list* list, int value){
   return i;
 }
 
+void insert(linked_list* list, int index, int value){
+  linked_item* new_item = malloc(sizeof(linked_item));
+  linked_item* current_item = search_index(list, index-1);
+
+  new_item->value = value;
+  new_item->previous = current_item;
+  new_item->next = current_item->next;
+  current_item->next->previous = current_item;
+  current_item->next = new_item;
+}
 
 int main(){
   linked_list* lista = init_list();
@@ -165,6 +175,7 @@ int main(){
   append(lista, 10);
   append(lista, 10);
   prepend(lista, 5);
+  insert(lista, 3, 13);
   print_list(lista);
   printf("%d\n", search_value(lista, 10));
   printf("%d\n", search_index(lista, 0)->value);
