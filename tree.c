@@ -86,20 +86,20 @@ int tree_h(tree* tree){
 }
 
 int main(){
-  tree* arvere = init_tree(10);
-  print_tree(arvere);
+  tree* my_tree = init_tree(10);
+  print_tree(my_tree);
   printf("\n");
-  insert(arvere, 5);
-  insert(arvere, 8);
-  insert(arvere, 3);
-  insert(arvere, 1);
-  insert(arvere, 7);
-  insert(arvere, 11);
-  insert(arvere, 3);
-  insert(arvere, 5);
-  print_tree(arvere);
+  insert(my_tree, 5);
+  insert(my_tree, 8);
+  insert(my_tree, 3);
+  insert(my_tree, 1);
+  insert(my_tree, 7);
+  insert(my_tree, 11);
+  insert(my_tree, 3);
+  insert(my_tree, 5);
+  print_tree(my_tree);
   printf("\n");
-  printf("Altura: %d\n", tree_h(arvere));
+  printf("Altura: %d\n", tree_h(my_tree));
  
   return 0;
 }
