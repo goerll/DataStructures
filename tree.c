@@ -1,25 +1,28 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 // Bigger or equal goes to right
 
 typedef struct node {
   int value;
+  struct node* parent;
   struct node* left;
   struct node* right;
-} node ;
+} node;
 
 typedef struct tree{
   node* root;
 } tree;
 
-int max(int a, int b){
+int max_int(int a, int b){
  return ((a) > (b) ? (a) : (b));
 }
 
 node* init_node(int value){
   node* new = malloc(sizeof(node));
   new->value = value;
+  new->parent = NULL;
   new->left = NULL;
   new->right = NULL;
 
@@ -42,6 +45,7 @@ void insert(tree* tree, int value){
         aux = aux->right;
       else {
         aux->right = init_node(value);
+        aux->right->parent = aux->right;
         break;
       }
     }
@@ -50,6 +54,7 @@ void insert(tree* tree, int value){
         aux = aux->left;
       else {
         aux->left = init_node(value);
+        aux->left->parent = aux->left;
         break;
       }
     }
@@ -77,12 +82,75 @@ int node_h(node* node){
     return -1;
   }
   else {
-    return max(node_h(node->left), node_h(node->right))+1;
+    return max_int(node_h(node->left), node_h(node->right))+1;
   }
 }
 
 int tree_h(tree* tree){
   return node_h(tree->root);
+}
+
+node* search(node* node, int value){
+  if (node->value == value) {
+    return node;
+  }
+  else {
+    if (node->value < value){
+      if (node->right) {
+        return search(node->right, value);
+      }
+      else {
+        return NULL;
+      }
+    }
+    else {
+      if (node->left) {
+        return search(node->left, value);
+      }
+      else {
+        return NULL;
+      }
+    }
+  }
+}
+
+node* min(node* node){
+  while (node->left != NULL){
+    node = node->left;
+  }
+
+  return node;
+}
+
+node* max(node* node){
+  while (node->right != NULL){
+    node = node->right;
+  }
+
+  return node;
+}
+
+node* sucessor(node* node, int x){
+  node = search(node, x);
+
+  if (!node){
+    return NULL;
+  }
+
+  else {
+    if (node->right){
+      return min(node->right);
+    }
+    else {
+      struct node* aux = node->parent;
+      while (aux != NULL && node == aux->right) {
+        node = aux;
+        aux = aux->parent;
+      }
+      return aux;
+    }
+  }
+
 }
 
 int main(){
@@ -96,10 +164,14 @@ int main(){
   insert(my_tree, 7);
   insert(my_tree, 11);
   insert(my_tree, 3);
-  insert(my_tree, 5);
+  insert(my_tree, 15);
   print_tree(my_tree);
   printf("\n");
   printf("Altura: %d\n", tree_h(my_tree));
+  printf("Altura: %p\n", search(my_tree->root,8));
+  printf("Altura: %d\n", min(my_tree->root)->value);
+  printf("Altura: %d\n", max(my_tree->root)->value);
+  printf("Sucessor: %d\n", sucessor(my_tree->root, 5)->value);
  
   return 0;
 }
