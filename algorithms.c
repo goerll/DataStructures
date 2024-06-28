@@ -1,73 +1,53 @@
-#include <stdio.h>
-#include <stdbool.h>
+#include <vector>
+#include <iostream>
 
-void printArray(int array[], int n){
-  printf("[%d", array[0]);
-  for (int i = 1; i < n; i++){
-    printf(", %d", array[i]);
-  }
-  printf("]\n");
-}
+using namespace std;
 
-void quickSort(int array[]){
-
-}
-
-void mergeSort(int arr){
-
-}
-
-void bubbleSort(int array[], int n){
-  bool swapped;
-
-  for (int i = 0; i < n; i++) {
-    bool swapped = false;
-    for (int j = 0; j < n; j++){
-      if (array[j] > array[j+1]) {
-        int temp = array[j];
-        array[j] = array[j+1];
-        array[j+1] = temp;
-
-        swapped = true;
-      }
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
+    os << "[";
+    for (auto el = v.begin(); el != v.end(); ++el) {
+        if (el != v.begin())
+            os << ", ";
+        os << *el;
     }
+    return os << "]";
+}
 
-    if (!swapped) {
-      break;
+void bubble(vector<int>& array) {
+    for (int i = 0; i < array.size(); i++) {
+        bool swapped = false;
+        for (int j = i + 1; j < array.size(); j++) {
+            if (array[i] > array[j]) {
+                array[i] ^= array[j];
+                array[j] ^= array[i];
+                array[i] ^= array[j];
+                swapped = true;
+            }
+        }
+        if (!swapped)
+            break;
     }
-  }
-
 }
 
-// INSERTION //
-void insertionSort(int array[], int size){
-  for (int i = 1; i < size; i++){ // Loop 1
-    int key = array[i];
-    int j = i - 1;
-    while (j >= 0 && array[j] > key){ // Loop 2
-      array[j+1] = array[j];
-      j--;
+void insertion(vector<int>& array) {
+    for (int i = 1; i < array.size(); i++) {
+        for (int j = i - 1; j >= 0; j--) {
+            if (array[i] < array[j]) {
+                array[i] ^= array[j];
+                array[j] ^= array[i];
+                array[i] ^= array[j];
+                i -= 1;
+            }
+            else
+                break;
+        }
     }
-    array[j+1] = key;
-  }
 }
 
-void selectionSort(int arr){
-
+int main() {
+    vector<int> array = {32,1,5,23,6,64,2,1};
+    cout << array << endl;
+    insertion(array);
+    cout << array << endl;
 }
-
-int binarySearch(int array[], int n, int value){
-
-}
-
-int main(){
-  // Unsorted array
-  int arr[20] = {12, 78, 1, 45, 19, 3, 90, 27, 64, 83, 5, 16, 2, 8, 40, 72, 31, 56, 9, 14};
-  printArray(arr, 20);
-  // insertionSort(arr, 20);
-  bubbleSort(arr, 20);
-  printArray(arr, 20);
-
-  return 0;
-}
-
